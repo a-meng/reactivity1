@@ -1,0 +1,47 @@
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+</head>
+
+<body>
+    <div>
+        <form>
+            <div>
+                <label>姓名：</label>
+                <input type=" text" name="name">
+            </div>
+            <div>
+                <label>年龄：</label>
+                <input type=" text" name="age">
+            </div>
+            <p></p>
+        </form>
+    </div>
+    <script src='./reactivity.js'></script>
+    <script>
+        const formNode = document.querySelector('form');
+        const pNode = document.querySelector('p');
+        let data = reactive({
+            name: '',
+            age: ''
+        });
+
+        effect(() => {
+            pNode.innerHTML = JSON.stringify(data);
+        });
+
+
+        formNode.addEventListener('input', (ev) => {
+            data[ev.target.name] = ev.target.value;
+        });
+
+
+    </script>
+</body>
+
+</html>

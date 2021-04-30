@@ -22,23 +22,37 @@
             <p></p>
         </form>
     </div>
-    <script src='./reactivity.js'></script>
+    <script src='./reactivity1.js'></script>
     <script>
         const formNode = document.querySelector('form');
         const pNode = document.querySelector('p');
+        //创建响应式对象
+        //好处:更新数据时可以变更任意部分
         let data = reactive({
             name: '',
             age: ''
         });
-
-        effect(() => {
-            pNode.innerHTML = JSON.stringify(data);
-        });
-
-
+        
         formNode.addEventListener('input', (ev) => {
             data[ev.target.name] = ev.target.value;
         });
+
+        //用处：用来监听数据变更,做一些操作，
+        //好处：不用指定监听哪些key的数据
+        //原理：1.默认执行一次并对通过对象key的get操作收集数据=>effect(fn)关系
+        //      2.在下次对响应对象key做set操作时就会找到effect(fn)再次执行
+        effect(() => {
+            console.info('effectFn');
+            pNode.innerHTML = JSON.stringify(data);
+           //假如有异步行为，对数据的watch要套在同步函数里
+            // setTimeout(() => {
+            //     effect(() => {
+            //         pNode.innerHTML = JSON.stringify(data);
+            //     });
+            // }, 0);
+        });
+
+        
 
 
     </script>

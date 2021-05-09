@@ -32,7 +32,7 @@
             name: '',
             age: ''
         });
-        
+
         formNode.addEventListener('input', (ev) => {
             data[ev.target.name] = ev.target.value;
         });
@@ -42,17 +42,10 @@
         //原理：1.默认执行一次并对通过对象key的get操作收集数据=>effect(fn)关系
         //      2.在下次对响应对象key做set操作时就会找到effect(fn)再次执行
         effect(() => {
-            console.info('effectFn');
             pNode.innerHTML = JSON.stringify(data);
-           //假如有异步行为，对数据的watch要套在同步函数里
-            // setTimeout(() => {
-            //     effect(() => {
-            //         pNode.innerHTML = JSON.stringify(data);
-            //     });
-            // }, 0);
         });
 
-        
+
 
 
     </script>

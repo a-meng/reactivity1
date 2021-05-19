@@ -1,5 +1,5 @@
 
-//api:  reactive 创建可观察对象
+// reactive 创建可观察对象
 function reactive(target) {
     return new Proxy(target, {
         get(target, key) {
@@ -13,7 +13,7 @@ function reactive(target) {
         }
     });
 }
-//api:  依赖监听函数
+//依赖监听函数
 function effect(fn) {
     activeEffect = fn;
     fn();
@@ -55,8 +55,7 @@ function trigger(target, key) {
 
 const state = reactive({
     a: 0,
-    b: 0,
-    total: 0
+    b: 0
 });
 //更新a 
 setInterval(() => {
@@ -74,7 +73,4 @@ effect(() => {
     console.info('触发b监听', state.b);
 });
 
-effect(() => {
-    console.info('触发total监听', state.total);
-});
 

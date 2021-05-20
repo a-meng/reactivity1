@@ -33,27 +33,25 @@ function track(target, key) {
     if (!activeEffect) {
         return; // 在effect外面的get操作不管，也不可能管
     }
-    let has = triggerMap.get(target);
-    if (!has) {
-        has = new Map();
-        triggerMap.set(target, has);
+    let depsMap = triggerMap.get(target);
+    if (!depsMap) {
+        depsMap = new Map();
+        triggerMap.set(target, depsMap);
     }
-    let children = has.get(key);
-    if (!children) {
-        children = new Set();
-        has.set(key, children);
+    let affects = depsMap.get(key);
+    if (!affects) {
+        affects = new Set();
+        depsMap.set(key, affects);
     }
-    children.add(activeEffect);
+    affects.add(activeEffect);
 }
 //触发更新
 function trigger(target, key) {
-    let has = triggerMap.get(target);
-    if (has) {
-        let children = has.get(key);
-        if (children) {
-            children.forEach(fn => {
-                fn();
-            });
+    let depsMap = triggerMap.get(target);
+    if (depsMap) {
+        let affects = depsMap.get(key);
+        if (affects) {
+            affects.forEach(fn => fn());
         }
     }
 }
